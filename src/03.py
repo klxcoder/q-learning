@@ -32,12 +32,30 @@ def choose_action(r: int, c: int):
         return random.randint(0, len(actions) - 1)
     return np.argmax(q_table[r][c])
 
-# One training step
+episodes = 500
+
+for _ in range(episodes):
+    r, c = 0, 0  # Start at 'S'
+    while maze[r][c] != 'G':
+        a_idx = choose_action(r, c)
+        a = actions[a_idx]
+        r_next, c_next = get_next_pos(r, c, a)
+        reward = 1 if maze[r_next][c_next] == 'G' else 0
+        q_table[r][c][a_idx] += alpha * (
+            reward + gamma * np.max(q_table[r_next][c_next]) - q_table[r][c][a_idx]
+        )
+        r, c = r_next, c_next
+
+# After training: Predict optimal path from 'S' to 'G'
 r, c = 0, 0
-a_idx = choose_action(r, c)
-a = actions[a_idx]
-r_next, c_next = get_next_pos(r, c, a)
-reward = 1 if maze[r_next][c_next] == 'G' else 0
-q_table[r][c][a_idx] += alpha * (
-    reward + gamma * np.max(q_table[r_next][c_next]) - q_table[r][c][a_idx]
-)
+path = [(r, c)]
+while maze[r][c] != 'G':
+    a_idx = np.argmax(q_table[r][c])
+    a = actions[a_idx]
+    r, c = get_next_pos(r, c, a)
+    path.append((r, c))
+    if len(path) > 20: break  # avoid infinite loops if Q-table is bad
+
+print(q_table)
+
+print("Predicted path:", path)
