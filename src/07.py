@@ -16,7 +16,7 @@ q_table = np.zeros((rows, cols, len(actions)))
 
 alpha = 0.1
 gamma = 0.9
-epsilon = 0.5
+inital_epsilon = 0.5
 
 def is_valid(r: int, c: int):
     return 0 <= r < rows and 0 <= c < cols and maze[r][c] != '#'
@@ -38,6 +38,7 @@ episodes = 500
 
 for episode in range(episodes):
     print(f"{episode}/{episodes}")
+    epsilon = inital_epsilon*(episodes - episode)/episodes
     r, c = 0, 0  # Start at 'S'
     while maze[r][c] != 'G':
         a_idx = choose_action(r, c)
