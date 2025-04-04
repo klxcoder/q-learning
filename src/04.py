@@ -40,7 +40,12 @@ for _ in range(episodes):
         a_idx = choose_action(r, c)
         a = actions[a_idx]
         r_next, c_next = get_next_pos(r, c, a)
-        reward = 1 if maze[r_next][c_next] == 'G' else 0
+        if (r_next, c_next) == (r, c):
+            reward = -0.1  # penalty for invalid move
+        elif maze[r_next][c_next] == 'G':
+            reward = 1
+        else:
+            reward = 0
         q_table[r][c][a_idx] += alpha * (
             reward + gamma * np.max(q_table[r_next][c_next]) - q_table[r][c][a_idx]
         )
