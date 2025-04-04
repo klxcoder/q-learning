@@ -16,8 +16,6 @@ class Maze:
         self.wall = '#'
         self.actions = ['up', 'down', 'left', 'right']
         self.action_space = len(self.actions)
-        flattened_maze = [item for sublist in self.maze for item in sublist]
-        self.state_space = self.rows * self.cols - flattened_maze.count('#') # Number of non-wall cells
 
     def get_state(self, pos: tuple[int, int]) -> int:
         return pos[0] * self.cols + pos[1]
