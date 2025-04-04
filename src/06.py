@@ -64,8 +64,9 @@ def q_learning(
 
     q_table: NDArray[np.float64] = np.zeros((maze.rows * maze.cols, maze.action_space))
 
-    for _ in range(episodes):
-        print(f"{_}/{episodes}")
+    for episode in range(episodes):
+        print(f"{episode}/{episodes}")
+        epsilon = 0.5*(episodes - episode)/episodes
         current_pos = maze.start_pos
         done = False
 
