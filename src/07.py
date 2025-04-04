@@ -3,18 +3,20 @@ import random
 
 # Environment setup
 maze: list[list[str]] = [
-    ['S', '.', '.'],
-    ['.', '#', '.'],
-    ['.', '.', 'G']
+    ['S', '.', '.', '.', '.', ],
+    ['.', '#', '.', '#', '.', ],
+    ['.', '.', '.', '.', '.', ],
+    ['.', '#', '.', '#', '.', ],
+    ['.', '.', '#', '.', 'G', ],
 ]
 
-rows, cols = 3, 3
+rows, cols = 5, 5
 actions: list[str] = ['up', 'down', 'left', 'right']
 q_table = np.zeros((rows, cols, len(actions)))
 
 alpha = 0.1
 gamma = 0.9
-epsilon = 0.2
+epsilon = 0.5
 
 def is_valid(r: int, c: int):
     return 0 <= r < rows and 0 <= c < cols and maze[r][c] != '#'
@@ -34,7 +36,8 @@ def choose_action(r: int, c: int):
 
 episodes = 500
 
-for _ in range(episodes):
+for episode in range(episodes):
+    print(f"{episode}/{episodes}")
     r, c = 0, 0  # Start at 'S'
     while maze[r][c] != 'G':
         a_idx = choose_action(r, c)
