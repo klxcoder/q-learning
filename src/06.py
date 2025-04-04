@@ -5,14 +5,16 @@ from numpy.typing import NDArray
 class Maze:
     def __init__(self):
         self.maze = [
-            ['S', '.', '.'],
-            ['.', '#', '.'],
-            ['.', '.', 'G'],
+            ['S', '.', '.', '.', '.', ],
+            ['.', '#', '.', '#', '.', ],
+            ['.', '.', '.', '.', '.', ],
+            ['.', '#', '.', '#', '.', ],
+            ['.', '.', '#', '.', 'G', ],
         ]
         self.rows = len(self.maze)
         self.cols = len(self.maze[0])
         self.start_pos: tuple[int, int] = (0, 0)
-        self.goal_pos: tuple[int, int] = (2, 2)
+        self.goal_pos: tuple[int, int] = (4, 4)
         self.wall = '#'
         self.actions = ['up', 'down', 'left', 'right']
         self.action_space = len(self.actions)
@@ -56,13 +58,14 @@ def q_learning(
         maze: Maze,
         learning_rate: float = 0.1,
         discount_factor: float = 0.9,
-        epsilon: float = 0.1,
+        epsilon: float = 0.5,
         episodes: int = 1000
     ) -> NDArray[np.float64]:
 
     q_table: NDArray[np.float64] = np.zeros((maze.rows * maze.cols, maze.action_space))
 
     for _ in range(episodes):
+        print(f"{_}/{episodes}")
         current_pos = maze.start_pos
         done = False
 
