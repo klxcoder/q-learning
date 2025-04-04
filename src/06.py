@@ -58,7 +58,7 @@ def q_learning(
         maze: Maze,
         learning_rate: float = 0.1,
         discount_factor: float = 0.9,
-        epsilon: float = 0.5,
+        _epsilon: float = 0.5,
         episodes: int = 1000
     ) -> NDArray[np.float64]:
 
@@ -66,7 +66,7 @@ def q_learning(
 
     for episode in range(episodes):
         print(f"{episode}/{episodes}")
-        epsilon = 0.5*(episodes - episode)/episodes
+        epsilon = _epsilon*(episodes - episode)/episodes
         current_pos = maze.start_pos
         done = False
 
